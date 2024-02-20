@@ -8,8 +8,15 @@ const App = () => {
 
   const addNewName = (event) => {
     event.preventDefault()
-    const pTemp = [...persons]
-    setPersons(pTemp.concat({name:newName}))
+    let personExists = persons.find(p => p.name === newName) // returns object
+    console.log(personExists ? personExists : false)
+
+    if(personExists)
+      window.alert(`${newName} is already added to`)
+    else {
+      const pTemp = [...persons]
+      setPersons(pTemp.concat({name:newName}))
+    }
   }
 
   const handleNameChage = (event) => {
@@ -37,9 +44,9 @@ const App = () => {
       <h2>Numbers</h2>
       <div>
         {persons.map(p => 
-          <li key={p.name}>
+          <span key={p.name}>
             {p.name}
-          </li>
+          <br/></span>
         )}
       </div>
     </div>
