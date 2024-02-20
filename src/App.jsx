@@ -55,11 +55,12 @@ const Content = ({parts}) => {
 const Part = ({part, myKey}) => <p key={myKey}>{part.name} {part.exercises}</p>
 
 const Total = ({parts}) => {
-  const exec = parts.map(a => a.exercises) // get exercises
-  const sum = exec.reduce((a,b) => a + b) // sum with reduce
+  // const exec = parts.map(a => a.exercises) // get exercises
+  // const sum = exec.reduce((a,b) => a + b) // sum with reduce
+  const sum2 = parts.reduce((a, b) => a + b.exercises,0) // initial val req
 
   return(
-    <b>total of {sum} exercises</b>
+    <b>total of {sum2} exercises</b>
   )
 }
  
