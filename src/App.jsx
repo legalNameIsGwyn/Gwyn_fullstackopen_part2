@@ -1,5 +1,10 @@
 import { useState } from 'react'
 
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
+
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -26,63 +31,54 @@ const App = () => {
     }
   }
 
-  const handleNameChage = (event) => {
-    console.log(event.target.value)
+  const handleNameChange = (event) => 
     setNewName(event.target.value)
-  }
 
-  const handleNewNum = (event) => setNewNum(event.target.value)
+  const handleNewNum = (event) => 
+    setNewNum(event.target.value)
 
   const handleFilter = (event) =>{
     let input = event.target.value
     setFilter(input)
 
     if(input !== ''){
-      console.log(input)
       let pTemp = [...people]
       let newPersons = pTemp.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
+      console.log(newPersons)
       setPersons(newPersons)
     } else
       setPersons(people)
   }
 
+  let indiv = {
+    name: newName,
+    num: newNum
+  }
+
+  let indivHandler ={
+    nameChange: handleNameChange,
+    numChange: handleNewNum,
+    addIndiv: addNewName
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input
-        value={filter}
-        onChange={handleFilter}>
-        </input>
-      </div>
+      <Filter 
+        filter={filter} 
+        handleFilter={handleFilter}/>
+
       <h2>add a new</h2>
-      <form>
-        <div>
-          name: <input 
-          value={newName} 
-          onChange={handleNameChage}/>
-        </div>
-        <div>
-          number: <input 
-          value={newNum}
-          onChange={handleNewNum}/>
-        </div>
-        <div>
-          <button 
-          type="submit"
-          onClick={addNewName}>
-            add
-          </button>
-        </div>
-      </form>
+
+      <PersonForm 
+        indiv={indiv} 
+        handlers={indivHandler}/>
+
       <h2>Numbers</h2>
-      <div>
-        {persons.map(p => 
-          <span key={p.name}>
-            {p.name} {p.number}
-          <br/></span>
-        )}
-      </div>
+
+      <Persons 
+        persons={persons}/>
+
     </div>
   )
 }
