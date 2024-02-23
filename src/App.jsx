@@ -15,18 +15,39 @@ const App = () => {
     noteServices
       .getAll()
       .then(res => {
-        setPersons(res)
-        setPeople(res)
+        updatePop(res)
       })
   },[])
 
+  const updatePop = newPop => {
+    setPeople(newPop)
+    setPersons(newPop)
+  }
+
   const addNewName = (event) => {
     event.preventDefault()
-    let personNotExists = persons.find(p => p.name.toLowerCase() === newName.toLowerCase()) // returns object
-    // console.log(personExists ? personExists : false)
+    let personFound = persons.find(p => p.name.toLowerCase() === newName.toLowerCase()) // returns object
+    // console.log(personFound ? personFound : false)
+    const prompt = window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)
 
-    if(personNotExists)
-      window.alert(`${newName} is already added to phonebook`)
+    if(personFound){
+      if(prompt){
+        let newP = {...personFound, number:newNum}
+        console.log(newP)
+        noteServices
+          .updateNum(newP)
+          .then(res => {
+            console.log(res)
+            const newPopu = persons.map(p =>
+              p.id === res.data.id 
+              ? { ...p, number: res.data.number } 
+              : p
+            );
+            updatePop(newPopu)
+          })
+
+      }
+    }
     else {
       const newPerson = {name:newName, number:newNum}
 
@@ -34,8 +55,7 @@ const App = () => {
         .create(newPerson)
         .then( res =>{
           console.log(res)
-          setPersons(persons.concat(res))
-          setPeople(people.concat(res))
+          updatePop(persons.concat(res))
         })
     }
   }
@@ -67,8 +87,7 @@ const App = () => {
       .remove(userID) // value of button
       .then(res => { // returns what you delete
         const newPersons = persons.filter(p => p.id !== res.data.id)
-        setPersons(newPersons)
-        setPeople(newPersons)
+        updatePop(newPersons)
       })
     } else
       console.log(`Delete cancelled.`)

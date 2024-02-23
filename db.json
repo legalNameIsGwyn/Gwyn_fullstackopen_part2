@@ -2,7 +2,7 @@
   "persons": [
     {
       "name": "Arto Hellas",
-      "number": "040-123456",
+      "number": "456",
       "id": "1"
     },
     {
@@ -23,7 +23,7 @@
     {
       "id": "3d8c",
       "name": "gwyn",
-      "number": 0
+      "number": "321"
     },
     {
       "id": "7b68",
@@ -39,6 +39,11 @@
       "id": "ce50",
       "name": "Alfred Wagner",
       "number": "3213-23"
+    },
+    {
+      "id": "1a5b",
+      "name": "",
+      "number": 0
     }
   ]
 }
