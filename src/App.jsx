@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -59,6 +58,16 @@ const App = () => {
       setPersons(people)
   }
 
+  const deleteHandler = (event) => {
+    noteServices
+      .remove(event.target.value) // value of button
+      .then(res => { // returns what you delete
+        const newPersons = persons.filter(p => p.id !== res.data.id)
+        setPersons(newPersons)
+        setPeople(newPersons)
+      })
+  }
+
   let indiv = {
     name: newName,
     num: newNum
@@ -86,7 +95,8 @@ const App = () => {
       <h2>Numbers</h2>
 
       <Persons 
-        persons={persons}/>
+        persons={persons}
+        deleteHandler={deleteHandler}/>
 
     </div>
   )
