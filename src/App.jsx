@@ -3,40 +3,41 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import noteServices from './services/notes'
 
 const App = () => {
   const [persons, setPersons] = useState([])
-  const [people, setPeople] = useState(persons)
+  const [people, setPeople] = useState([])
   const [filter, setFilter] = useState('')
   const [newName, setNewName] = useState('')
   const [newNum, setNewNum] = useState(0)
-  const url = `http://localhost:3002/persons`
 
   useEffect(() => {
-    axios
-      .get(url)
-      .then(response => {
-        setPeople(response.data)
-        setPersons(response.data)
+    noteServices
+      .getAll()
+      .then(res => {
+        setPersons(res)
+        setPeople(res)
       })
   },[])
 
   const addNewName = (event) => {
     event.preventDefault()
-    let personExists = persons.find(p => p.name.toLowerCase() === newName.toLowerCase()) // returns object
+    let personNotExists = persons.find(p => p.name.toLowerCase() === newName.toLowerCase()) // returns object
     // console.log(personExists ? personExists : false)
 
-    if(personExists)
+    if(personNotExists)
       window.alert(`${newName} is already added to phonebook`)
     else {
       const newPerson = {name:newName, number:newNum}
-      const pTemp = persons.concat(newPerson)
 
-      axios
-        .post(url, newPerson)
-
-      setPersons(pTemp)
-      setPeople(pTemp)
+      noteServices
+        .create(newPerson)
+        .then( res =>{
+          console.log(res)
+          setPersons(persons.concat(res))
+          setPeople(people.concat(res))
+        })
     }
   }
 
@@ -51,9 +52,8 @@ const App = () => {
     setFilter(input)
 
     if(input !== ''){
-      let pTemp = [...people]
+      let pTemp = [...persons]
       let newPersons = pTemp.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
-      console.log(newPersons)
       setPersons(newPersons)
     } else
       setPersons(people)
