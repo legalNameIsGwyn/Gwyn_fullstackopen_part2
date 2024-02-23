@@ -59,13 +59,19 @@ const App = () => {
   }
 
   const deleteHandler = (event) => {
-    noteServices
-      .remove(event.target.value) // value of button
+    const userID = event.target.value
+    const p = persons.find(p => p.id === userID)
+    
+    if(window.confirm(`Delete ${p.name}`)){
+      noteServices
+      .remove(userID) // value of button
       .then(res => { // returns what you delete
         const newPersons = persons.filter(p => p.id !== res.data.id)
         setPersons(newPersons)
         setPeople(newPersons)
       })
+    } else
+      console.log(`Delete cancelled.`)
   }
 
   let indiv = {
