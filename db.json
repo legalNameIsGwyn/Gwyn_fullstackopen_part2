@@ -26,11 +26,6 @@
       "number": "321"
     },
     {
-      "id": "7b68",
-      "name": "Rick Veem",
-      "number": "93-12312-43"
-    },
-    {
       "id": "87a0",
       "name": "Alex",
       "number": "93-12312-43"
@@ -39,26 +34,6 @@
       "id": "ce50",
       "name": "Alfred Wagner",
       "number": "3213-23"
-    },
-    {
-      "id": "3724",
-      "name": "joker",
-      "number": 0
-    },
-    {
-      "id": "a9f8",
-      "name": "harley",
-      "number": 0
-    },
-    {
-      "id": "af67",
-      "name": "bruce",
-      "number": 0
-    },
-    {
-      "id": "d1ad",
-      "name": "james",
-      "number": "321"
     }
   ]
 }

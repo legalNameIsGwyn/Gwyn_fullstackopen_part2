@@ -11,7 +11,7 @@ const App = () => {
   const [filter, setFilter] = useState('')
   const [newName, setNewName] = useState('')
   const [newNum, setNewNum] = useState(0)
-  const [sysMessage, setMessage] = useState(null)
+  const [sysMessage, setMessage] = useState({message: null, type: true})
 
   useEffect(() => {
     noteServices
@@ -62,8 +62,8 @@ const App = () => {
           console.log(res)
           updatePop(persons.concat(res))
 
-          setMessage(`Added ${res.name}`)
-          setTimeout(() => setMessage(null), 5000)
+          setMessage({message: `Added ${res.name}`, type: true})
+          setTimeout(() =>setMessage(null), 5000)
         })
     }
   }
@@ -96,6 +96,12 @@ const App = () => {
       .then(res => { // returns what you delete
         const newPersons = persons.filter(p => p.id !== res.data.id)
         updatePop(newPersons)
+      })
+      .catch(e => {
+        console.log(`Error message ${e}`)
+        setMessage({message:`Information of ${p.name} has already been removed from server`, type: false})
+
+        setTimeout(() => {setMessage(null)},5000)
       })
     } else
       console.log(`Delete cancelled.`)

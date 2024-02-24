@@ -1,8 +1,16 @@
-.systemMessage {
+.good-message {
   background-color: gainsboro;
   border-style: solid;
   border-color: green;
   border-radius: 6px;
   padding: 10px;
   color: green;
+}
+.bad-message {
+  background-color: gainsboro;
+  border-style: solid;
+  border-color: red;
+  border-radius: 6px;
+  padding: 10px;
+  color: red;
 }
