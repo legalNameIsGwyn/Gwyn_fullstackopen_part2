@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import noteServices from './services/notes'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,6 +11,7 @@ const App = () => {
   const [filter, setFilter] = useState('')
   const [newName, setNewName] = useState('')
   const [newNum, setNewNum] = useState(0)
+  const [sysMessage, setMessage] = useState(null)
 
   useEffect(() => {
     noteServices
@@ -28,12 +30,12 @@ const App = () => {
     event.preventDefault()
     let personFound = persons.find(p => p.name.toLowerCase() === newName.toLowerCase()) // returns object
     // console.log(personFound ? personFound : false)
-    const prompt = window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)
-
+    
+    // person already exists
     if(personFound){
-      if(prompt){
+      if(window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)){
         let newP = {...personFound, number:newNum}
-        console.log(newP)
+        
         noteServices
           .updateNum(newP)
           .then(res => {
@@ -43,11 +45,14 @@ const App = () => {
               ? { ...p, number: res.data.number } 
               : p
             );
+            
             updatePop(newPopu)
+            
+            // setTimeout(() => {setMessage(null)}, 5000)
           })
-
       }
     }
+    // ADD NEW PERSON
     else {
       const newPerson = {name:newName, number:newNum}
 
@@ -56,6 +61,9 @@ const App = () => {
         .then( res =>{
           console.log(res)
           updatePop(persons.concat(res))
+
+          setMessage(`Added ${res.name}`)
+          setTimeout(() => setMessage(null), 5000)
         })
     }
   }
@@ -107,6 +115,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={sysMessage}/>
       <Filter 
         filter={filter} 
         handleFilter={handleFilter}/>
